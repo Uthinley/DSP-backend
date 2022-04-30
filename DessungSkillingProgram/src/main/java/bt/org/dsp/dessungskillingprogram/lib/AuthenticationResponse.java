@@ -10,6 +10,7 @@ public class AuthenticationResponse {
     private String refreshToken;
     private Instant expiresAt;
     private String username;
+    private String cid;
     private Set<GrantedAuthority> roles;
 
     public String getAuthenticationToken() {
@@ -38,7 +39,12 @@ public class AuthenticationResponse {
         this.expiresAt = expiresAt;
         return this;
     }
+    public String getCid(){ return  cid;}
 
+    public AuthenticationResponse setCid(String cid){
+        this.cid =cid;
+        return this;
+    }
     public String getUsername() {
         return username;
     }

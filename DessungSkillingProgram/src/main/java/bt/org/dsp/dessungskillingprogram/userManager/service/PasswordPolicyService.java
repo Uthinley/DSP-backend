@@ -7,6 +7,7 @@ import bt.org.dsp.dessungskillingprogram.userManager.model.Users;
 import bt.org.dsp.dessungskillingprogram.userManager.repository.IPasswordPolicyRepository;
 import bt.org.dsp.dessungskillingprogram.userManager.repository.IUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,13 @@ import static org.springframework.http.HttpStatus.OK;
 public class PasswordPolicyService extends BaseService {
     private IPasswordPolicyRepository passwordPolicyRepository;
     private IUserRepository userRepository;
+    @Autowired
     private AuthService authService;
     private PasswordEncoder passwordEncoder;
     private Environment environment;
 
     public ResponseEntity<UserDTO> changePassword(UserDTO userDTO){
-        UserDTO userList = userRepository.findByUsername(userDTO.getUsername());
+        Optional<Users> userList = userRepository.findByUser(userDTO.getUsername());
         Optional <PasswordPolicy> passwordPolicy = passwordPolicyRepository.findById( 1 );
         Boolean passwordLength = false;
         Boolean passwordValidity = false;
@@ -50,11 +52,11 @@ public class PasswordPolicyService extends BaseService {
         current.add(Calendar.DATE, 30);
         Date passwordExDate = new Date(current.getTimeInMillis());
 
-        if(!Objects.isNull(userRepository.findByUsername(userDTO.getUsername()))){
-//            Users _userFound = userList.get();
-            Users users = new Users();
-            String originalPassword = userList.getPassword();
-            String oldPassword = userList.getOldPassword();
+        if(userList.isPresent()){
+            Users _userFound = userList.get();
+//            Users users = new Users();
+            String originalPassword = _userFound.getPassword();
+            String oldPassword = userDTO.getOldPassword();
 
             // checking the old password is correct
             if(!passwordEncoder.matches(oldPassword, originalPassword))
@@ -64,10 +66,10 @@ public class PasswordPolicyService extends BaseService {
             if(passwordEncoder.matches(userDTO.getPassword(), originalPassword))
                 return new ResponseEntity("Your old password cannot be the new password.", HttpStatus.NOT_ACCEPTABLE);
             if(!userDTO.getPassword().equals(null) || passwordLength == false)
-                users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+                _userFound.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             if(passwordLength == true){
                 if(userDTO.getPassword().length() >= 8)
-                    users.setPassword( passwordEncoder.encode(userDTO.getPassword()) );
+                    _userFound.setPassword( passwordEncoder.encode(userDTO.getPassword()) );
                 else
                     return new ResponseEntity("Password must be at least 8 characters", HttpStatus.NOT_ACCEPTABLE);
             }
@@ -78,18 +80,18 @@ public class PasswordPolicyService extends BaseService {
                 Matcher matcher = pattern.matcher(userDTO.getPassword());
                 boolean isStringContainsSpecialCharacter = matcher.find();
                 if(isStringContainsSpecialCharacter)
-                    users.setPassword( passwordEncoder.encode(userDTO.getPassword()) );
+                    _userFound.setPassword( passwordEncoder.encode(userDTO.getPassword()) );
                 else
                     return new ResponseEntity("Password must contain at least a special character", HttpStatus.NOT_ACCEPTABLE);
             }
 
             // setting password validity of 30 days
-            if(passwordValidity == true)  users.setPasswordExpiryDate(passwordExDate);
-            else users.setPasswordExpiryDate( null );
-            if( users.getIsFirstLogin()!=null || users.getIsFirstLogin()==null ) users.setIsFirstLogin( false );
-            users.setModifiedBy(authService.getCurrentUser().getUsername());
-            users.setModifiedDate(new Date());
-            return new ResponseEntity(userRepository.save(users), OK);
+            if(passwordValidity == true)  _userFound.setPasswordExpiryDate(passwordExDate);
+            else _userFound.setPasswordExpiryDate( null );
+            if( _userFound.getIsFirstLogin()!=null || _userFound.getIsFirstLogin()==null ) _userFound.setIsFirstLogin( false );
+            _userFound.setModifiedBy(authService.getCurrentUser().getUsername());
+            _userFound.setModifiedDate(new Date());
+            return new ResponseEntity(userRepository.save(_userFound), OK);
         }
         return new ResponseEntity("Failed", HttpStatus.NOT_FOUND);
     }

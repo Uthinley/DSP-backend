@@ -32,4 +32,14 @@ public class TrainerController {
         return trainerService.getTrainerList();
     }
 
+    /**
+     * Delete student by student id
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/deleteTrainerById/{id}")
+    public ResponseMessage deleteTrainerById(@PathVariable("id") Integer id) {
+        return trainerService.deleteTrainerById(id);
+    }
+
 }

@@ -39,5 +39,6 @@ public class Users extends BaseEntity {
 
     private Integer groupId;
     private Integer userType;
+    private Integer status;
 
 }

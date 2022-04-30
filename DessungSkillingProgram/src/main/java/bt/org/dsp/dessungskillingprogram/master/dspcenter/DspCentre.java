@@ -1,6 +1,8 @@
 package bt.org.dsp.dessungskillingprogram.master.dspcenter;
 
 import bt.org.dsp.dessungskillingprogram.base.BaseEntity;
+import bt.org.dsp.dessungskillingprogram.master.Department;
+import bt.org.dsp.dessungskillingprogram.master.dspcenter.Dzongkhag.Dzongkhag;
 import bt.org.dsp.dessungskillingprogram.trainerManager.model.Trainers;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,12 @@ public class DspCentre extends BaseEntity {
     private Integer id;
     @NotNull
     private String dspCentre;
+
+    @ManyToOne
+    @JoinColumn(name = "dzongkhagId", referencedColumnName = "id")
+    private Dzongkhag dzongkhag;
+
+
 //    @OneToOne(mappedBy = "dspCentre")
 //    private Trainers trainers;
 }

@@ -44,6 +44,7 @@ public class AuthService {
         final String jwt = jwtUtil.generateToken(userDetails);
         return new AuthenticationResponse()
                 .setUsername(authenticationRequest.getUsername())
+//                .setCid(authenticationRequest.getCid())
                 .setAuthenticationToken(jwt)
                 .setExpiresAt(Instant.now().plusMillis(jwtUtil.getJwtExpirationInMillis()))
                 .setRoles((Set<GrantedAuthority>) userDetails.getAuthorities());
@@ -63,7 +64,7 @@ public class AuthService {
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) SecurityContextHolder.
                         getContext().getAuthentication().getPrincipal();
-        return userRepository.findByCid(principal.getUsername())
+        return userRepository.findByUser(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 

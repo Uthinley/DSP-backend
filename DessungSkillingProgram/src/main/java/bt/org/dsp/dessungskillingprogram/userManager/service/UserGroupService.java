@@ -4,6 +4,7 @@ import bt.org.dsp.dessungskillingprogram.base.BaseService;
 import bt.org.dsp.dessungskillingprogram.lib.ResponseMessage;
 import bt.org.dsp.dessungskillingprogram.userManager.model.UserGroup;
 import bt.org.dsp.dessungskillingprogram.userManager.repository.IUserGroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public class UserGroupService extends BaseService {
+    @Autowired
     private IUserGroupRepository userGroupRepository;
 
     public ResponseMessage save(UserGroup userGroup, String currentUser) {

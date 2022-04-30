@@ -1,16 +1,14 @@
-package bt.org.dsp.dessungskillingprogram.master;
+package bt.org.dsp.dessungskillingprogram.master.CourseLevelMaster;
+
 
 import bt.org.dsp.dessungskillingprogram.base.BaseEntity;
-import bt.org.dsp.dessungskillingprogram.courseManager.model.Course;
 import bt.org.dsp.dessungskillingprogram.master.course.CourseMaster;
 import bt.org.dsp.dessungskillingprogram.trainerManager.model.Trainers;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,17 +16,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "department_master")
-public class Department extends BaseEntity {
+@Table(name = "course_level_master")
+public class CourseLevelMaster extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
-    @NotNull
-    private String departmentName;
+    private String courseLvlName;
 
-
-
-
-//    @OneToOne(mappedBy = "department")
-//    private Trainers trainers;
 }

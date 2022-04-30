@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IDepartmentRepository extends JpaRepository<Department, Integer> {
-
+    Department findAllById(Integer id);
 }

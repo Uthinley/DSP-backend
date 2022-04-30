@@ -4,7 +4,6 @@ import bt.org.dsp.dessungskillingprogram.base.BaseService;
 import bt.org.dsp.dessungskillingprogram.lib.ResponseMessage;
 import bt.org.dsp.dessungskillingprogram.master.dspcenter.DSPCentreDTO;
 import bt.org.dsp.dessungskillingprogram.master.dspcenter.IDSPCentre;
-import bt.org.dsp.dessungskillingprogram.master.training.ITrainingProgrammeRepository;
 import bt.org.dsp.dessungskillingprogram.trainerManager.dto.TrainersDTO;
 import bt.org.dsp.dessungskillingprogram.trainerManager.model.Trainers;
 import bt.org.dsp.dessungskillingprogram.trainerManager.repository.ITrainerRepository;
@@ -26,8 +25,6 @@ public class TrainerService extends BaseService {
     private ITrainerRepository iTrainerRepository;
     @Autowired
     private IDSPCentre idspCentre;
-    @Autowired
-    private ITrainingProgrammeRepository iTrainingProgrammeRepository;
 
     @Transactional
     public ResponseMessage save(String trainerDetails) throws JsonProcessingException {
@@ -40,9 +37,10 @@ public class TrainerService extends BaseService {
             return responseMessage;
         }
         try{
-            trainers.setDspCentre(idspCentre.findAllById(trainersDTO.getDspCentreId()));
-            trainers.setTrainingProgramme(iTrainingProgrammeRepository.findAllById(trainersDTO
-                    .getTrainingProgramme()));
+            trainers.setId(trainersDTO.getId());
+//            trainers.setDspCentre(idspCentre.findAllById(trainersDTO.getDspCentreId()));
+//            trainers.setTrainingProgramme(iTrainingProgrammeRepository.findAllById(trainersDTO
+//                    .getTrainingProgramme()));
             trainers.setTrainerId(trainersDTO.getTrainerId());
             trainers.setTrainerName(trainersDTO.getTrainerName());
             trainers.setTrainerAffiliation(trainersDTO.getTrainerAffiliation());
@@ -65,4 +63,18 @@ public class TrainerService extends BaseService {
     public List<Trainers> getTrainerList() {
         return iTrainerRepository.findAll();
     }
+
+    @Transactional
+    public ResponseMessage deleteTrainerById(Integer id) {
+        try {
+            iTrainerRepository.deleteTrainerById(id);
+        } catch (Exception ex) {
+            responseMessage.setStatus(UNSUCCESSFUL_STATUS);
+            responseMessage.setText("Trainer couldn't be deleted.");
+        }
+        responseMessage.setStatus(SUCCESSFUL_STATUS);
+        responseMessage.setText("Trainer deleted successfully.");
+        return responseMessage;
+    }
+
 }
