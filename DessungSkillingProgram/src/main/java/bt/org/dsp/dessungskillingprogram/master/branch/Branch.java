@@ -23,7 +23,7 @@ public class Branch extends BaseEntity {
     private Integer id;
     @NotNull
     private String branchName;
-    @ManyToOne
-    @JoinColumn(name = "departmentId", referencedColumnName = "id")
-    private Department department;
+//    @ManyToOne
+//    @JoinColumn(name = "departmentId", referencedColumnName = "id")
+//    private Department department;
 }

@@ -155,7 +155,7 @@ public class MasterService extends BaseService {
             branchEntity.setCreatedBy(currentUser);
             branchEntity.setCreatedDate(new Date());
             branchEntity.setBranchName(branchDTO.getBranchName());
-            branchEntity.setDepartment(iDepartmentRepository.findAllById(branchDTO.getDepartmentId()));
+//            branchEntity.setDepartment(iDepartmentRepository.findAllById(branchDTO.getDepartmentId()));
 //            branch.setDepartment(iDepartmentRepository.findAllById(branch.));
             iBranchRepository.save(branchEntity);
         } catch (Exception ex) {
@@ -189,7 +189,7 @@ public class MasterService extends BaseService {
             course1.setDepartment(iDepartmentRepository.findAllById(courseMasterDTO.getSectorId()));
 //            course1.setCourseLevelMaster((CourseLevelMaster) iCourseLevelMasterRepository.findAllById(Collections.singleton(courseMasterDTO.getClevel())));
             course1.setCourseLevelMaster(iCourseLevelMasterRepository.findAllById(courseMasterDTO.getClevel()));
-            course1.setBranch(iBranchRepository.findAllById(courseMasterDTO.getBranchId()));
+//            course1.setBranch(iBranchRepository.findAllById(courseMasterDTO.getBranchId()));
             iCourseMasterRepository.save(course1);
         }catch (Exception ex){
             responseMessage.setStatus(UNSUCCESSFUL_STATUS);

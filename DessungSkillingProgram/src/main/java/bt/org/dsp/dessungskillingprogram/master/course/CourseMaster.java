@@ -35,9 +35,9 @@ public class CourseMaster extends BaseEntity {
 //    @JsonBackReference(value = "trainers-course")
     private Department department;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "branch_id", referencedColumnName = "id")
-//    @JsonBackReference(value = "trainers-course")
-    private Branch branch;
+//    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})
+//    @JoinColumn(name = "branch_id", referencedColumnName = "id")
+////    @JsonBackReference(value = "trainers-course")
+//    private Branch branch;
 
 }

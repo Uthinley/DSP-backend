@@ -11,7 +11,7 @@
     <groupId>bt.org.dsp</groupId>
     <artifactId>DessungSkillingProgram</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>DessungSkillingProgram</name>
     <description>DessungSkillingProgram</description>
     <properties>
@@ -103,11 +103,14 @@
     </dependencies>
 
     <build>
+        <finalName>dsp-service</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <executable>true</executable>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
